@@ -27,7 +27,7 @@ collided = False
 def collideSound(collided):
     # plays sound when collided
     if collided == True:
-        start_new_thread(sounds.play, ('smallExplosion.wav',))
+        start_new_thread(sounds.play, ('bigExplosion.wav',))
         collided = False
     
 def init(data):
@@ -37,14 +37,15 @@ def init(data):
     data.spawner = BulletSpawner(0,0)
     data.bullets = []
     data.collisions = []
+    data.bomb = []
     
 def mousePressed(event, data):
     # use event.x and event.y
     pass
 
 def keyPressed(event, data):
-    # use event.char and event.keysym
-    pass
+    print(event.keysym)
+    data.bomb.append(Collision(data.width/2, data.height/2, 10, data.width/2,5))
 
 def timerFired(data):
     data.timer += 1
@@ -91,14 +92,18 @@ def timerFired(data):
     
     
     for collision in data.collisions:
-        
-        # if the collision is too small or too big, fix it
+       
         if collision.power < 10:
             collision.power = 10
-        if collision.power > 20:
+        elif collision.power > 20:
             collision.power = 20
+            
         if collision.r <= collision.power:
             data.collisions.append(Collision(collision.cx, collision.cy, collision.r + 2,collision.power))
+    
+    for bomb in data.bomb:
+        if bomb.r <= bomb.power:
+            data.bomb.append(Collision(bomb.cx, bomb.cy, bomb.r + 20, bomb.power))
         
 
 def redrawAll(canvas, data):
@@ -111,6 +116,10 @@ def redrawAll(canvas, data):
         
     canvas.create_oval(x - 10, y - 10, x+10,y+10, fill = "blue")
     
+    for bomb in data.bomb:
+        bomb.draw(canvas)
+        data.bomb.remove(bomb)
+        data.bullets = []
         
     for bullet in data.bullets:
         bullet.draw(canvas)
@@ -166,5 +175,6 @@ def run(width=300, height=300):
     root.mainloop()  # blocks until window is closed
     print("bye!")
 
-start_new_thread(run, (600, 600))
-start_new_thread(sounds.play, ('backgroundMusic.wav',))
+run(600,600)
+# start_new_thread(run, (600, 600))
+# start_new_thread(sounds.play, ('backgroundMusic.wav',))
