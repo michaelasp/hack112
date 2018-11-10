@@ -11,7 +11,7 @@ def init(data):
 
 def timerFired(data):
     updateLeapMotionData(data)
-    printLeapMotionData(data)
+    #printLeapMotionData(data)
 
 def updateLeapMotionData(data):
     data.frame = data.controller.frame()
