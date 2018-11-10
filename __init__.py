@@ -7,11 +7,16 @@ import defender
 from starclass import *
 import handFinder
 from shield import *
+import thread
+from thread import start_new_thread
+import sounds
+import os
 
 ####################################
 # customize these functions
 ####################################
 
+    
 def init(data):
     data.star1 = Star(data.width/2, data.height/2, 60, 10, 'cyan2')
     data.rotation = 0
@@ -76,10 +81,7 @@ def timerFired(data):
                 data.mode = 'end'
             
 
-             
-    
 
-    
 
     #data.shield.draw(canvas)
     
@@ -132,4 +134,6 @@ def run(width=300, height=300):
     # and launch the app
     root.mainloop()  # blocks until window is closed
     print("bye!")
+print os.getcwd()
+start_new_thread(sounds.play, ('hack112\\backgroundMusic.wav',))
 run(800, 800)
