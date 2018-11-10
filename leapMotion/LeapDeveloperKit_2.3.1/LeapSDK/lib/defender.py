@@ -51,22 +51,23 @@ class BulletSpawner(object):
         
     def makeBullet(self, screenWidth, screenHeight):
        
-        side = random.choice(["topbot"]) #,"leftright"])
+        side = random.choice(["topbot","leftright"])
         if side == "topbot":
             x = random.randint(0,screenWidth)
-            y = 0 #random.choice([0,screenHeight])
+            y = random.choice([0,screenHeight])
         elif side == "leftright":
             x = random.choice([0,screenWidth])
             y = random.randint(0,screenHeight)
         
         speed = random.randint(10,40)
+    
+        angle = math.degrees(math.atan((y *1. - screenHeight/2)/(screenWidth/2 - x)))
+    
         
-        if y == 0:
-            angle = math.degrees(math.atan((y *1. - screenHeight/2)/(screenWidth/2 - x)))
-        else:
-            angle = 45
-        
-        print("(%d,%d)" % (x,y), "(300,300)", angle)
+        if x > 300:
+            angle = math.degrees(math.atan((x * 1. - screenWidth/2)/(y - screenHeight/2))) - 90
+            if y > 300:
+                angle += 180
         
         return Bullet(x, y, angle, speed)
         
@@ -86,6 +87,7 @@ def keyPressed(event, data):
 def timerFired(data):
     data.timer += 1
     if data.timer % 10 == 0:
+       
         data.bullets.append(data.spawner.makeBullet(data.width,data.height))
         
     for bullet in data.bullets:
