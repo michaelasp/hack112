@@ -23,5 +23,5 @@ class Star():
 
     def draw(self, canvas):
         pts = self.generatePoints()
-        print(pts)
+
         canvas.create_polygon(pts, fill = self.color)
