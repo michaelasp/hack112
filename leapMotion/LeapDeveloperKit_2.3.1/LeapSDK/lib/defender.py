@@ -2,7 +2,7 @@
 
 #import Leap, sys, thread, time 
 import os, sys, inspect, thread, time
-sys.path.insert(0, "C:\Users\Joshua Moavenzadeh\Desktop\LeapDeveloperKit_3.2.0+45899_win\LeapSDK\lib/x86")
+sys.path.insert(0, "C:\Users/aspin\Downloads\Leap_Motion_SDK_Windows_2.3.1\LeapDeveloperKit_2.3.1+31549_win\LeapSDK\lib/x64")
 
 import Leap
 from Leap import CircleGesture, KeyTapGesture, ScreenTapGesture, SwipeGesture
