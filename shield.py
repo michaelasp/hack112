@@ -18,7 +18,7 @@ class Shield(object):
         rect = self.getCoords(self.rad)
         start = self.startPosL
         for startNum in range(len(self.startPosL)):
-            canvas.create_arc(rect, start = start[startNum], extent = self.degree, fill = "blue")
+            canvas.create_arc(rect, start = start[startNum], extent = self.degree, fill = self.color)
         circRect = self.getCoords(self.rad * 0.8)
         canvas.create_oval(circRect, fill = 'LightSkyBlue4', width = 0)
 

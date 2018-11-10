@@ -12,13 +12,19 @@ from shield import *
 
 def init(data):
     data.star1 = Star(data.width/2, data.height/2, 60, 10, 'cyan2')
+<<<<<<< HEAD
     data.mode = 'start'
     data.rotation = 0
     #data.shield = Shield(data.width/2 - 70, data.height/2 -70, data.width/2 + 70, data.height/2 + 70)
     # load data.xyz as appropriate
     data.shields = (-45, 135)
+=======
+    data.mode = 'play'
+    #data.shield = Shield(data.width/2 - 70, data.height/2 -70, data.width/2 + 70, data.height/2 + 70)
+    data.shields = [-45, 135]
+>>>>>>> Shield
 
-    data.shield1 = Shield( data.width/2, data.height/2,  90, data.shields, 90, 'green')
+    data.shield1 = Shield( data.width/2, data.height/2,  90, data.shields, 90, 'blue')
     data.timerDelay = 100 # 100 millisecond == 0.1 seconds
     data.timerCalls = 0
     data.pause = True
@@ -30,7 +36,7 @@ def drawEnd(canvas):
 
 def mousePressed(event, data):
     # use event. x and event.y
-    if data.mode == 'start':
+    if data.mode == 'play':
         if data.star1.die() == True:
             data.mode = 'end'
         else: 
@@ -45,6 +51,7 @@ def rgbString(red, green, blue):
 
 def redrawAll(canvas, data):
     # draw in canvas
+<<<<<<< HEAD
     color = rgbString(255, data.rotation%255, 0)
     data.star1.draw(canvas)
     data.shield1.draw(canvas)
@@ -65,6 +72,22 @@ def timerFired(data):
         #data.rectOffsetY = frame.hands[0].palm_position[2]
         #data.rectOffset = frame.hands[0].palmPosition
         data.timerCalls += 1   
+=======
+    if data.mode == 'play':
+        data.shield1.draw(canvas)
+        data.star1.draw(canvas)
+
+    if data.mode == 'end':
+        drawEnd(canvas) 
+
+    #data.shield.draw(canvas)
+    
+def timerFired(data):
+    if data.mode == 'play':
+        handFinder.timerFired(data)
+        if data.pause != True:
+            data.timerCalls += 1  
+>>>>>>> Shield
     
 
 ####################################
