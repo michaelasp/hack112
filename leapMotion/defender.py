@@ -2,12 +2,9 @@
 
 #import Leap, sys, thread, time 
 import os, sys, inspect, thread, time
-sys.path.insert(0, "C:\Users\Joshua Moavenzadeh\Desktop\LeapDeveloperKit_3.2.0+45899_win\LeapSDK\lib/x86")
-
+sys.path.insert(0, "C:\Users/aspin\Downloads\Leap_Motion_SDK_Windows_2.3.1\LeapDeveloperKit_2.3.1+31549_win\LeapSDK\lib/x64")
 import Leap
 from Leap import CircleGesture, KeyTapGesture, ScreenTapGesture, SwipeGesture
-
-
 from Tkinter import *
 
 ####################################
@@ -59,31 +56,6 @@ def printLeapMotionData(data):
             normal.roll * Leap.RAD_TO_DEG,
             direction.yaw * Leap.RAD_TO_DEG)
 
-        # Get arm bone
-        arm = hand.arm
-        print "  Arm direction: %s, wrist position: %s, elbow position: %s" % (
-            arm.direction,
-            arm.wrist_position,
-            arm.elbow_position)
-
-        # Get fingers
-        for finger in hand.fingers:
-
-            print "    %s finger, id: %d, length: %fmm, width: %fmm" % (
-                data.fingerNames[finger.type],
-                finger.id,
-                finger.length,
-                finger.width)
-
-            # Get bones
-            for b in range(0, 4):
-                bone = finger.bone(b)
-                print "      Bone: %s, start: %s, end: %s, direction: %s" % (
-                    data.boneNames[bone.type],
-                    bone.prev_joint,
-                    bone.next_joint,
-                    bone.direction)
-
 def redrawAll(canvas, data):
     # draw in canvas
     pass
@@ -119,7 +91,7 @@ def run(width=300, height=300):
     data = Struct()
     data.width = width
     data.height = height
-    data.timerDelay = 20 # milliseconds
+    data.timerDelay = 1000 # milliseconds
     init(data)
     # create the root and the canvas
     root = Tk()
