@@ -13,6 +13,9 @@ import handFinder
 def init(data):
     data.star1 = Star(data.width/2, data.height/2, 50, 10, 'cyan2')
     data.mode = 'start'
+    data.rectXY = (data.width/2, data.height/2)
+    data.rectOffsetX = 0
+    data.rectOffsetY = 0
     #data.shield = Shield(data.width/2 - 70, data.height/2 -70, data.width/2 + 70, data.height/2 + 70)
     # load data.xyz as appropriate
     data.timerDelay = 100 # 100 millisecond == 0.1 seconds
@@ -40,13 +43,21 @@ def keyPressed(event, data):
 def redrawAll(canvas, data):
     # draw in canvas
     data.star1.draw(canvas)
+    offX = data.rectOffsetX
+    offY = data.rectOffsetY
+    canvas.create_rectangle(data.rectXY[0] + offX, data.rectXY[1]+offY, 
+        data.rectXY[0]+50+offX, data.rectXY[0]+50 + offY, fill = "black")
     canvas.create_text(data.width/2, data.height/2, 
                        text="Timer Calls: " + str(data.timerCalls), fill = 'white')
     #data.shield.draw(canvas)
     
 def timerFired(data):
     handFinder.timerFired(data)
+    frame = data.frame
     if data.pause != True:
+        data.rectOffsetX = frame.hands[0].palm_position[0]
+        data.rectOffsetY = frame.hands[0].palm_position[2]
+        #data.rectOffset = frame.hands[0].palmPosition
         data.timerCalls += 1   
     
 

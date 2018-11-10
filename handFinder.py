@@ -25,8 +25,9 @@ def printLeapMotionData(data):
 
     print "Frame id: %d, timestamp: %d, hands: %d, fingers: %d" % (
           frame.id, frame.timestamp, len(frame.hands), len(frame.fingers))
-
+    
     # Get hands
+    
     for hand in frame.hands:
 
         handType = "Left hand" if hand.is_left else "Right hand"
