@@ -1,7 +1,9 @@
 # Basic Animation Framework
-
 from Tkinter import *
+from bullet import *
+from collision import *
 import math
+import defender
 from starclass import *
 import handFinder
 from shield import *
@@ -18,12 +20,12 @@ def init(data):
     data.shields = (-45, 135)
     data.mode = 'play'
     #data.shield = Shield(data.width/2 - 70, data.height/2 -70, data.width/2 + 70, data.height/2 + 70)
-
-    data.shield1 = Shield( data.width/2, data.height/2,  90, data.shields, 90, 'blue')
-    data.timerDelay = 100 # 100 millisecond == 0.1 seconds
+    data.shield1 = Shield(data.width/2, data.height/2,  90, data.shields, 90, 'blue')
+    data.timerDelay = 10 # 100 millisecond == 0.1 seconds
     data.timerCalls = 0
     data.pause = True
     handFinder.init(data)
+    defender.init(data)
     
 def drawEnd(canvas):
     canvas.create_rectangle(0,0, 50, 50, fill = 'red')
@@ -54,6 +56,7 @@ def redrawAll(canvas, data):
 
         canvas.create_text(data.width/2, data.height/2, 
                         text="Timer Calls: " + str(data.timerCalls)+" " + str(data.rotation), fill = 'white')
+        defender.redrawAll(canvas, data)
         #data.shield.draw(canvas)
     if data.mode == 'end':
         drawEnd(canvas) 
@@ -69,7 +72,8 @@ def timerFired(data):
             #data.rectOffsetX = frame.hands[0].palm_position[0]
             #data.rectOffsetY = frame.hands[0].palm_position[2]
             #data.rectOffset = frame.hands[0].palmPosition
-            data.timerCalls += 1   
+            data.timerCalls += 1
+            defender.timerFired(data) 
     
 
     
