@@ -8,6 +8,7 @@ sys.path.insert(0, "C:\Users/aspin\Downloads\Leap_Motion_SDK_Windows_2.3.1\LeapD
 # from Leap import CircleGesture, KeyTapGesture, ScreenTapGesture, SwipeGesture
 
 from bullet import *
+from collision import *
 import random
 import math
 from Tkinter import *
@@ -16,13 +17,15 @@ from Tkinter import *
 # customize these functions
 ####################################
 
-        
+    
+    
 def init(data):
     data.timer = 0
     data.level = 1
     data.seconds = 0
     data.spawner = BulletSpawner(0,0)
     data.bullets = []
+    data.collisions = []
     
 def mousePressed(event, data):
     # use event.x and event.y
@@ -46,13 +49,50 @@ def timerFired(data):
         
     for bullet in data.bullets:
         bullet.moveBullet()
+        
         if bullet.isOffscreen(data.width, data.height):
             data.bullets.remove(bullet)
-
+        
+        r1 = bullet.r
+        r2 = 10
+        x = bullet.cx
+        y = bullet.cy
+       
+        # the 300 is just data.width and data.height
+        
+        if math.sqrt((x - 300)**2 + (y - 300)**2) <= r1 + r2:
+            x1, y1 = bullet.cx, bullet.cy
+            x2, y2 = data.width/2, data.height/2
+            
+            # the 10 is just the radius of the sample ship i used
+            r1, r2 = bullet.r, 10
+            pcollision = ((x1*r2+x2*r1*1.)/(r1+r2),(y1*r2+y2*r1*1.)/(r1+r2))
+            
+            data.collisions.append(Collision(pcollision[0],pcollision[1], 2, bullet.r))
+            data.bullets.remove(bullet)
+    
+    
+    for collision in data.collisions:
+        
+        # if the collision is too small or too big, fix it
+        if collision.power < 10:
+            collision.power = 10
+        if collision.power > 20:
+            collision.power = 20
+        if collision.r <= collision.power:
+            data.collisions.append(Collision(collision.cx, collision.cy, collision.r + 2,collision.power))
+        
 
 def redrawAll(canvas, data):
     x,y = data.width/2, data.height/2
-    canvas.create_oval(x - 10, y - 10, x+10,y+10)
+    
+    for collision in data.collisions:
+        collision.draw(canvas)
+        data.collisions.remove(collision)
+        
+    canvas.create_oval(x - 10, y - 10, x+10,y+10, fill = "blue")
+    
+        
     for bullet in data.bullets:
         bullet.draw(canvas)
     

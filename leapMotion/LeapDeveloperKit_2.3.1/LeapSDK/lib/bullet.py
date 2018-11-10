@@ -27,7 +27,8 @@ class Bullet(object):
         # Check if the bullet has moved fully offscreen
         return (self.cx + self.r <= 0 or self.cx - self.r >= width) and \
                (self.cy + self.r <= 0 or self.cy - self.r >= height)
-
+    
+       
     
 class BulletSpawner(object):
    
