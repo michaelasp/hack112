@@ -4,17 +4,20 @@ from Tkinter import *
 import math
 from starclass import *
 import handFinder
-#from shield import *
+from shield import *
 
 ####################################
 # customize these functions
 ####################################
 
 def init(data):
-    data.star1 = Star(data.width/2, data.height/2, 50, 10, 'cyan2')
+    data.star1 = Star(data.width/2, data.height/2, 60, 10, 'cyan2')
     data.mode = 'start'
     #data.shield = Shield(data.width/2 - 70, data.height/2 -70, data.width/2 + 70, data.height/2 + 70)
     # load data.xyz as appropriate
+    data.shields = [-45, 135]
+
+    data.shield1 = Shield( data.width/2, data.height/2,  90, data.shields, 90, 'green')
     data.timerDelay = 100 # 100 millisecond == 0.1 seconds
     data.timerCalls = 0
     data.pause = True
@@ -39,7 +42,9 @@ def keyPressed(event, data):
 
 def redrawAll(canvas, data):
     # draw in canvas
+    data.shield1.draw(canvas)
     data.star1.draw(canvas)
+
     canvas.create_text(data.width/2, data.height/2, 
                        text="Timer Calls: " + str(data.timerCalls), fill = 'white')
     #data.shield.draw(canvas)
