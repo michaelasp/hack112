@@ -1,10 +1,13 @@
+import random
+import copy
+import math
 class Bullet(object):
     # Model
-    def __init__(self, cx, cy, angle, speed):
+    def __init__(self, cx, cy, angle, speed, power):
         # A bullet has a position, a size, a direction, and a speed
         self.cx = cx
         self.cy = cy
-        self.r = 5
+        self.r = power
         self.angle = angle
         self.speed = speed
         
@@ -27,12 +30,13 @@ class Bullet(object):
 
     
 class BulletSpawner(object):
-    import random
+   
+    
     def __init__(self,x,y):
         self.x = x
         self.y = y
         
-    def makeBullet(self, screenWidth, screenHeight):
+    def makeBullet(self, screenWidth, screenHeight,level):
        
         side = random.choice(["topbot","leftright"])
         if side == "topbot":
@@ -42,14 +46,34 @@ class BulletSpawner(object):
             x = random.choice([0,screenWidth])
             y = random.randint(0,screenHeight)
         
-        speed = random.randint(10,40)
-    
+        choices = []
+        num = 5
+        for i in range(level+1):
+            choices.append(num)
+            num += 5
+            
+        if choices[-1] > 50:
+            powerC = []
+            for i in choices:
+                if i <= 50:
+                    powerC.append(i)
+                if i > 50:
+                    choices.append(i+5)
+        
+        power = random.choice(choices)
+        speed = random.choice(choices)
+        
+        if x == 300:
+            x += .001
+        if y == 300:
+            y += .001
+            
         angle = math.degrees(math.atan((y *1. - screenHeight/2)/(screenWidth/2 - x)))
     
-        
         if x > 300:
             angle = math.degrees(math.atan((x * 1. - screenWidth/2)/(y - screenHeight/2))) - 90
             if y > 300:
                 angle += 180
         
-        return Bullet(x, y, angle, speed)
+        
+        return Bullet(x, y, angle, speed, power)
