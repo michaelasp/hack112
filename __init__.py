@@ -48,18 +48,15 @@ def rgbString(red, green, blue):
 
 def redrawAll(canvas, data):
     # draw in canvas
-<<<<<<< HEAD
     color = rgbString(255, data.rotation%255, 0)
     data.star1.draw(canvas)
     offX = data.rectOffsetX
     offY = data.rectOffsetY
     canvas.create_rectangle(data.rectXY[0] + offX, data.rectXY[1]+offY, 
         data.rectXY[0]+50+offX, data.rectXY[0]+50 + offY, fill = color)
-=======
     data.shield1.draw(canvas)
     data.star1.draw(canvas)
 
->>>>>>> Shield
     canvas.create_text(data.width/2, data.height/2, 
                        text="Timer Calls: " + str(data.timerCalls)+" " + str(data.rotation), fill = 'white')
     #data.shield.draw(canvas)
