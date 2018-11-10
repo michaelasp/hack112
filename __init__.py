@@ -44,15 +44,15 @@ def mousePressed(event, data):
     # use event. x and event.y
 
 def keyPressed(event, data):
-    if data.mode == 'start':
+    if data.mode == "start"
         if event.keysym == 'space':
             data.mode = 'option'
-        elif data.mode == 'option' or data.mode == 'end':
-            if event.keysym == 'p':
-                data.mode = 'play'
-        if data.mode == 'end':
-            if event.keysym == 'r':
-                data.mode = 'play'
+    elif data.mode == 'option' or data.mode == 'end':
+        if event.keysym == 'p':
+            data.mode = 'play'
+    if data.mode == 'end':
+        if event.keysym == 'r':
+            data.mode = 'play'
 
 def rgbString(red, green, blue):    
     return "#%02x%02x%02x" % (red, green, blue)
@@ -74,7 +74,7 @@ def redrawAll(canvas, data):
         data.star1.draw(canvas)
         canvas.create_text(data.width/2, data.height/1.3, text = \
             "Rotate the shields with your hand", fill = 'black', font = 'Arial 20 bold')
-        canvas.create_text(data.width/2, data.height/1.3 + 40, text)
+        canvas.create_text(data.width/2, data.height/1.3 + 40, text = 'Press p to play')
     if data.mode == 'play':
         color = rgbString(255, data.rotation%255, 0)
         data.star1.draw(canvas)
