@@ -38,7 +38,6 @@ class Star():
             self.color = 'red'
         
     def die(self):
-        print('called')
         if self.health <= 0:
             self.color = 'black'
             return True

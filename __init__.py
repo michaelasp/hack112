@@ -53,27 +53,30 @@ def redrawAll(canvas, data):
         data.star1.draw(canvas)
         data.shield1.draw(canvas)
         data.star1.draw(canvas)
-
-        canvas.create_text(data.width/2, data.height/2, 
-                        text="Timer Calls: " + str(data.timerCalls)+" " + str(data.rotation), fill = 'white')
         defender.redrawAll(canvas, data)
         #data.shield.draw(canvas)
     if data.mode == 'end':
         drawEnd(canvas) 
     
 def timerFired(data):
-        handFinder.timerFired(data)
-        frame = data.frame
-        if data.pause != True:
-            data.rotation = math.degrees(frame.hands[0].palm_normal.roll)
+        if data.mode == 'play':
+            handFinder.timerFired(data)
+            frame = data.frame
+            if data.pause != True:
+                data.rotation = math.degrees(frame.hands[0].palm_normal.roll)
+                
+                data.shield1.startPosL = tuple(map(lambda x: x+data.rotation, data.shields))
+                #print data.shields
+                #data.rectOffsetX = frame.hands[0].palm_position[0]
+                #data.rectOffsetY = frame.hands[0].palm_position[2]
+                #data.rectOffset = frame.hands[0].palmPosition
+                data.timerCalls += 1
+                defender.timerFired(data)
+            if data.star1.die() == True:
+                data.mode = 'end'
             
-            data.shield1.startPosL = tuple(map(lambda x: x+data.rotation, data.shields))
-            #print data.shields
-            #data.rectOffsetX = frame.hands[0].palm_position[0]
-            #data.rectOffsetY = frame.hands[0].palm_position[2]
-            #data.rectOffset = frame.hands[0].palmPosition
-            data.timerCalls += 1
-            defender.timerFired(data) 
+
+             
     
 
     

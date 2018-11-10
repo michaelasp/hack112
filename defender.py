@@ -41,7 +41,7 @@ def timerFired(data):
     if data.timer % 100 == 0:
         data.seconds += 1
         
-    if data.timer % 1000 == 0:
+    if data.timer % 500 == 0:
         data.level += 1
         
     if data.timer % int(100 * (4./5)**data.level) == 0:
@@ -107,6 +107,7 @@ def timerFired(data):
             
             data.collisions.append(Collision(pcollision[0],pcollision[1], 2, bullet.r))
             data.bullets.remove(bullet)
+            data.star1.hit()
     
     
     for collision in data.collisions:
@@ -127,13 +128,12 @@ def redrawAll(canvas, data):
         collision.draw(canvas)
         data.collisions.remove(collision)
         
-    canvas.create_oval(x - 10, y - 10, x+10,y+10, fill = "blue")
     
         
     for bullet in data.bullets:
         bullet.draw(canvas)
     
-    canvas.create_text(0,0, anchor = NW, text = "Time: %d" % data.seconds)
-    canvas.create_text(data.width,0, anchor = NE, text = "Level: %d" % data.level)
+    canvas.create_text(0,0, anchor = NW, text = "Health: %d" % data.star1.health, font = "Arial 14")
+    canvas.create_text(data.width,0, anchor = NE, text = "Level: %d" % data.level, font = 'Arial 14')
         
 
