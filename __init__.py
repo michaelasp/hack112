@@ -53,6 +53,7 @@ def keyPressed(event, data):
     if data.mode == 'end':
         if event.keysym == 'r':
             data.mode = 'play'
+            data.star1.health = 10
 
 def rgbString(red, green, blue):    
     return "#%02x%02x%02x" % (red, green, blue)
