@@ -118,8 +118,7 @@ def timerFired(data):
         #Hits Pentagon
         if math.sqrt((x*1.- data.width/2)**2 + (y*1. - data.height/2)**2) <= r1 + r2 and removed == False:
         # the 300 is just data.width and data.height
-            collided = True
-            collideSound(collided)
+            start_new_thread(sounds.play, ('hack112\\ouch.wav',))
             x1, y1 = bullet.cx, bullet.cy
             x2, y2 = data.width/2, data.height/2
             # the 10 is just the radius of the sample ship i used
