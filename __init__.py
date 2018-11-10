@@ -3,13 +3,18 @@
 from Tkinter import *
 import math
 from starclass import *
+<<<<<<< HEAD
 from shield import *
+=======
+import handFinder
+>>>>>>> fb4b565edd270edd6e1191e9f24ea67f6697d25a
 
 ####################################
 # customize these functions
 ####################################
 
 def init(data):
+<<<<<<< HEAD
     data.star1 = Star(data.width/2, data.height/2, 50, 10, 'cyan2')
     data.mode = 'start'
     data.shield = Shield(data.width/2 - 70, data.height/2 -70, data.width/2 + 70, data.height/2 + 70)
@@ -20,6 +25,9 @@ def init(data):
 
 def drawEnd(canvas):
     canvas.create_rectangle(0,0, 50, 50, fill = 'red')
+=======
+    handFinder.init(data)
+>>>>>>> fb4b565edd270edd6e1191e9f24ea67f6697d25a
 
 def mousePressed(event, data):
     # use event. x and event.y
@@ -47,6 +55,9 @@ def timerFired(data):
     data.timerCalls += 1
 
 
+def timerFired(data):
+    handFinder.timerFired(data)
+
 ####################################
 # use the run function as-is
 ####################################
@@ -73,19 +84,29 @@ def run(width=300, height=300):
         redrawAllWrapper(canvas, data)
         # pause, then call timerFired again
         canvas.after(data.timerDelay, timerFiredWrapper, canvas, data)
+<<<<<<< HEAD
 
+=======
+>>>>>>> fb4b565edd270edd6e1191e9f24ea67f6697d25a
     # Set up data and call init
     class Struct(object): pass
     data = Struct()
     data.width = width
     data.height = height
     data.timerDelay = 100 # milliseconds
+<<<<<<< HEAD
     root = Tk()
     root.resizable(width=False, height=False) # prevents resizing window
+=======
+>>>>>>> fb4b565edd270edd6e1191e9f24ea67f6697d25a
     init(data)
     # create the root and the canvas
+    root = Tk()
     canvas = Canvas(root, width=data.width, height=data.height)
+<<<<<<< HEAD
     canvas.configure(bd=0, highlightthickness=0)
+=======
+>>>>>>> fb4b565edd270edd6e1191e9f24ea67f6697d25a
     canvas.pack()
     # set up events
     root.bind("<Button-1>", lambda event:

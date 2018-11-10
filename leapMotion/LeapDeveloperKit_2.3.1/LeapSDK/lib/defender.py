@@ -2,24 +2,28 @@
 
 #import Leap, sys, thread, time 
 import os, sys, inspect, thread, time
-sys.path.insert(0, "C:\Users\Joshua Moavenzadeh\Desktop\LeapDeveloperKit_3.2.0+45899_win\LeapSDK\lib/x86")
+sys.path.insert(0, "C:\Users/aspin\Downloads\Leap_Motion_SDK_Windows_2.3.1\LeapDeveloperKit_2.3.1+31549_win\LeapSDK\lib/x64")
 
-import Leap
-from Leap import CircleGesture, KeyTapGesture, ScreenTapGesture, SwipeGesture
+# import Leap
+# from Leap import CircleGesture, KeyTapGesture, ScreenTapGesture, SwipeGesture
 
-
+from bullet import *
+import random
+import math
 from Tkinter import *
 
 ####################################
 # customize these functions
 ####################################
 
+        
 def init(data):
-    data.controller = Leap.Controller()
-    data.frame = data.controller.frame()
-    data.fingerNames = ['Thumb', 'Index', 'Middle', 'Ring', 'Pinky']
-    data.boneNames = ['Metacarpal', 'Proximal', 'Intermediate', 'Distal']
-
+    data.timer = 0
+    data.level = 1
+    data.seconds = 0
+    data.spawner = BulletSpawner(0,0)
+    data.bullets = []
+    
 def mousePressed(event, data):
     # use event.x and event.y
     pass
@@ -29,64 +33,32 @@ def keyPressed(event, data):
     pass
 
 def timerFired(data):
-    updateLeapMotionData(data)
-    printLeapMotionData(data)
+    data.timer += 1
+    if data.timer % 100 == 0:
+        data.seconds += 1
+        
+    if data.timer % 1000 == 0:
+        data.level += 1
+        
+    if data.timer % int(100 * (4./5)**data.level) == 0:
+    
+        data.bullets.append(data.spawner.makeBullet(data.width,data.height, data.level))
+        
+    for bullet in data.bullets:
+        bullet.moveBullet()
+        if bullet.isOffscreen(data.width, data.height):
+            data.bullets.remove(bullet)
 
-def updateLeapMotionData(data):
-    data.frame = data.controller.frame()
-
-def printLeapMotionData(data):
-    frame = data.frame
-
-    print "Frame id: %d, timestamp: %d, hands: %d, fingers: %d" % (
-          frame.id, frame.timestamp, len(frame.hands), len(frame.fingers))
-
-    # Get hands
-    for hand in frame.hands:
-
-        handType = "Left hand" if hand.is_left else "Right hand"
-
-        print "  %s, id %d, position: %s" % (
-            handType, hand.id, hand.palm_position)
-
-        # Get the hand's normal vector and direction
-        normal = hand.palm_normal
-        direction = hand.direction
-
-        # Calculate the hand's pitch, roll, and yaw angles
-        print "  pitch: %f degrees, roll: %f degrees, yaw: %f degrees" % (
-            direction.pitch * Leap.RAD_TO_DEG,
-            normal.roll * Leap.RAD_TO_DEG,
-            direction.yaw * Leap.RAD_TO_DEG)
-
-        # Get arm bone
-        arm = hand.arm
-        print "  Arm direction: %s, wrist position: %s, elbow position: %s" % (
-            arm.direction,
-            arm.wrist_position,
-            arm.elbow_position)
-
-        # Get fingers
-        for finger in hand.fingers:
-
-            print "    %s finger, id: %d, length: %fmm, width: %fmm" % (
-                data.fingerNames[finger.type],
-                finger.id,
-                finger.length,
-                finger.width)
-
-            # Get bones
-            for b in range(0, 4):
-                bone = finger.bone(b)
-                print "      Bone: %s, start: %s, end: %s, direction: %s" % (
-                    data.boneNames[bone.type],
-                    bone.prev_joint,
-                    bone.next_joint,
-                    bone.direction)
 
 def redrawAll(canvas, data):
-    # draw in canvas
-    pass
+    x,y = data.width/2, data.height/2
+    canvas.create_oval(x - 10, y - 10, x+10,y+10)
+    for bullet in data.bullets:
+        bullet.draw(canvas)
+    
+    canvas.create_text(0,0, anchor = NW, text = "Time: %d" % data.seconds)
+    canvas.create_text(data.width,0, anchor = NE, text = "Level: %d" % data.level)
+        
 
 ####################################
 # use the run function as-is
@@ -119,7 +91,7 @@ def run(width=300, height=300):
     data = Struct()
     data.width = width
     data.height = height
-    data.timerDelay = 20 # milliseconds
+    data.timerDelay = 10 # milliseconds
     init(data)
     # create the root and the canvas
     root = Tk()
@@ -135,4 +107,4 @@ def run(width=300, height=300):
     root.mainloop()  # blocks until window is closed
     print("bye!")
 
-run(400, 200)
+run(600, 600)

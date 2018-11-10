@@ -24,6 +24,7 @@ class Star():
 
     def draw(self, canvas):
         pts = self.generatePoints()
+<<<<<<< HEAD
         canvas.create_polygon(pts, fill = self.color)
 
     #tells you if the star is dead or not
@@ -44,3 +45,7 @@ class Star():
 
 
 
+=======
+
+        canvas.create_polygon(pts, fill = self.color)
+>>>>>>> fb4b565edd270edd6e1191e9f24ea67f6697d25a
