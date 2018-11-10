@@ -13,13 +13,10 @@ from shield import *
 def init(data):
     data.star1 = Star(data.width/2, data.height/2, 60, 10, 'cyan2')
     data.mode = 'start'
-    data.rectXY = (data.width/2, data.height/2)
-    data.rectOffsetX = 0
-    data.rectOffsetY = 0
     data.rotation = 0
     #data.shield = Shield(data.width/2 - 70, data.height/2 -70, data.width/2 + 70, data.height/2 + 70)
     # load data.xyz as appropriate
-    data.shields = [-45, 135]
+    data.shields = (-45, 135)
 
     data.shield1 = Shield( data.width/2, data.height/2,  90, data.shields, 90, 'green')
     data.timerDelay = 100 # 100 millisecond == 0.1 seconds
@@ -50,10 +47,6 @@ def redrawAll(canvas, data):
     # draw in canvas
     color = rgbString(255, data.rotation%255, 0)
     data.star1.draw(canvas)
-    offX = data.rectOffsetX
-    offY = data.rectOffsetY
-    canvas.create_rectangle(data.rectXY[0] + offX, data.rectXY[1]+offY, 
-        data.rectXY[0]+50+offX, data.rectXY[0]+50 + offY, fill = color)
     data.shield1.draw(canvas)
     data.star1.draw(canvas)
 
@@ -65,9 +58,11 @@ def timerFired(data):
     handFinder.timerFired(data)
     frame = data.frame
     if data.pause != True:
-        data.rotation = abs(math.degrees(frame.hands[0].palm_normal.roll))
-        data.rectOffsetX = frame.hands[0].palm_position[0]
-        data.rectOffsetY = frame.hands[0].palm_position[2]
+        data.rotation = math.degrees(frame.hands[0].palm_normal.roll)
+        data.shield1.startPosL = tuple(map(lambda x: x+data.rotation, data.shields))
+        #print data.shields
+        #data.rectOffsetX = frame.hands[0].palm_position[0]
+        #data.rectOffsetY = frame.hands[0].palm_position[2]
         #data.rectOffset = frame.hands[0].palmPosition
         data.timerCalls += 1   
     
