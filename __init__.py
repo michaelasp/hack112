@@ -16,6 +16,7 @@ def init(data):
     data.rectXY = (data.width/2, data.height/2)
     data.rectOffsetX = 0
     data.rectOffsetY = 0
+    data.rotation = 0
     #data.shield = Shield(data.width/2 - 70, data.height/2 -70, data.width/2 + 70, data.height/2 + 70)
     # load data.xyz as appropriate
     data.timerDelay = 100 # 100 millisecond == 0.1 seconds
@@ -38,23 +39,27 @@ def mousePressed(event, data):
 def keyPressed(event, data):
     pass
     # use event.char and event.keysym
-    
+def rgbString(red, green, blue):    
+    return "#%02x%02x%02x" % (red, green, blue)
+
 
 def redrawAll(canvas, data):
     # draw in canvas
+    color = rgbString(255, data.rotation%255, 0)
     data.star1.draw(canvas)
     offX = data.rectOffsetX
     offY = data.rectOffsetY
     canvas.create_rectangle(data.rectXY[0] + offX, data.rectXY[1]+offY, 
-        data.rectXY[0]+50+offX, data.rectXY[0]+50 + offY, fill = "black")
+        data.rectXY[0]+50+offX, data.rectXY[0]+50 + offY, fill = color)
     canvas.create_text(data.width/2, data.height/2, 
-                       text="Timer Calls: " + str(data.timerCalls), fill = 'white')
+                       text="Timer Calls: " + str(data.timerCalls)+" " + str(data.rotation), fill = 'white')
     #data.shield.draw(canvas)
     
 def timerFired(data):
     handFinder.timerFired(data)
     frame = data.frame
     if data.pause != True:
+        data.rotation = abs(math.degrees(frame.hands[0].palm_normal.roll))
         data.rectOffsetX = frame.hands[0].palm_position[0]
         data.rectOffsetY = frame.hands[0].palm_position[2]
         #data.rectOffset = frame.hands[0].palmPosition
