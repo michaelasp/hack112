@@ -54,6 +54,7 @@ def timerFired(data):
         
     if data.timer % 500 == 0:
         data.level += 1
+        start_new_thread(sounds.play, ('hack112\\level.wav',))
         
     if data.timer % int(100 * (4./5)**data.level) == 0:
     
@@ -82,7 +83,6 @@ def timerFired(data):
             if (ang1 % 360 > 0 and ang1 % 360 < 90) or (ang1 % 360 > 180 and ang1 % 360 < 270):
                 smaller = min(ang1 % 360, ang2 % 360)
                 larger  = max(ang1 % 360, ang2 % 360)
-                print smaller, larger, bulletAngle
                 if (bulletAngle % 360 <= larger+90 and bulletAngle % 360 >= larger)  or (bulletAngle%360 <= smaller + 90  and bulletAngle % 360 >= smaller):
                     pcollision = ((x1*r3+x2*r1*1.)/(r1+r3),(y1*r3+y2*r1*1.)/(r1+r3))
                     data.collisions.append(Collision(pcollision[0],pcollision[1], 2, bullet.r))

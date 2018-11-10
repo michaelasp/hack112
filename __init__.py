@@ -134,6 +134,5 @@ def run(width=300, height=300):
     # and launch the app
     root.mainloop()  # blocks until window is closed
     print("bye!")
-print os.getcwd()
 start_new_thread(sounds.play, ('hack112\\backgroundMusic.wav',))
 run(800, 800)
