@@ -44,7 +44,7 @@ def mousePressed(event, data):
     # use event. x and event.y
 
 def keyPressed(event, data):
-    if data.mode == "start"
+    if data.mode == "start":
         if event.keysym == 'space':
             data.mode = 'option'
     elif data.mode == 'option' or data.mode == 'end':
