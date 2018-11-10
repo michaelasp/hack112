@@ -55,7 +55,8 @@ def run(width=300, height=300):
     def redrawAllWrapper(canvas, data):
         canvas.delete(ALL)
         canvas.create_rectangle(0, 0, data.width, data.height,
-                                fill='white', width=0)
+                                fill='LightSkyBlue4', width=0)
+
         redrawAll(canvas, data)
         canvas.update()    
 
