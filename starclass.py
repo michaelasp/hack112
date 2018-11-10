@@ -2,11 +2,12 @@
 import math
 
 class Star():
-    def __init__(self, x, y, size, color):
+    def __init__(self, x, y, size, health, color):
         self.x = x
         self.y = y
         self.size = size
         self.color = color
+        self.health = health
 
     def generatePoints(self):
         pts = []
@@ -23,5 +24,23 @@ class Star():
 
     def draw(self, canvas):
         pts = self.generatePoints()
-        print(pts)
         canvas.create_polygon(pts, fill = self.color)
+
+    #tells you if the star is dead or not
+    def hit(self):
+        self.health -= 1
+        if self.health <= 2:
+            self.color = 'red'
+        
+    def die(self):
+        print('called')
+        if self.health <= 0:
+            self.color = 'black'
+            return True
+        return False
+
+
+
+
+
+
