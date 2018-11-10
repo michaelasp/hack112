@@ -17,6 +17,7 @@ def init(data):
     # load data.xyz as appropriate
     data.timerDelay = 100 # 100 millisecond == 0.1 seconds
     data.timerCalls = 0
+    data.pause = True
     handFinder.init(data)
     
 def drawEnd(canvas):
@@ -44,8 +45,10 @@ def redrawAll(canvas, data):
     #data.shield.draw(canvas)
     
 def timerFired(data):
-    data.timerCalls += 1
     handFinder.timerFired(data)
+    if data.pause != True:
+        data.timerCalls += 1   
+    
 
 ####################################
 # use the run function as-is

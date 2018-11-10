@@ -15,7 +15,11 @@ def timerFired(data):
 
 def updateLeapMotionData(data):
     data.frame = data.controller.frame()
-
+    frame = data.frame
+    if len(frame.hands) > 0:
+        data.pause = False
+    else:
+        data.pause = True
 def printLeapMotionData(data):
     frame = data.frame
 
