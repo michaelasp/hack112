@@ -32,7 +32,7 @@ def init(data):
     handFinder.init(data)
     defender.init(data)
     
-def drawEnd(canvas):
+def drawEnd(canvas, data):
     canvas.create_rectangle( 40, 40, data.width - 40, data.height - 40, fill = 'red', width = 0)
     canvas.create_text(data.width/2,data.height/2, text = '        x      x \n           __ \n \n GAME OVER!',fill = 'white', font = 'Helvetica 50 bold')
     canvas.create_text(data.width/2, data.height/1.3 + 40, text = \
@@ -83,7 +83,7 @@ def redrawAll(canvas, data):
         defender.redrawAll(canvas, data)
         #data.shield.draw(canvas)
     if data.mode == 'end':
-        drawEnd(canvas) 
+        drawEnd(canvas, data) 
     
 def timerFired(data):
         if data.mode == 'play':
