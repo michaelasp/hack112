@@ -23,7 +23,7 @@ def init(data):
     #data.shield = Shield(data.width/2 - 70, data.height/2 -70, data.width/2 + 70, data.height/2 + 70)
     # load data.xyz as appropriate
     data.shields = (-45, 135)
-    data.mode = 'play'
+    data.mode = 'start'
     #data.shield = Shield(data.width/2 - 70, data.height/2 -70, data.width/2 + 70, data.height/2 + 70)
     data.shield1 = Shield(data.width/2, data.height/2,  90, data.shields, 90, 'blue')
     data.timerDelay = 10 # 100 millisecond == 0.1 seconds
@@ -33,26 +33,48 @@ def init(data):
     defender.init(data)
     
 def drawEnd(canvas):
-    canvas.create_rectangle(0,0, 50, 50, fill = 'red')
+    canvas.create_rectangle( 40, 40, data.width - 40, data.height - 40, fill = 'red', width = 0)
+    canvas.create_text(data.width/2,data.height/2, text = '        x      x \n           __ \n \n GAME OVER!',fill = 'white', font = 'Helvetica 50 bold')
+    canvas.create_text(data.width/2, data.height/1.3 + 40, text = \
+            "   Press 'r' to restart", fill = 'white', font = 'Arial 20 bold')
 
 
 def mousePressed(event, data):
+    pass
     # use event. x and event.y
-    if data.mode == 'play':
-        if data.star1.die() == True:
-            data.mode = 'end'
-        else: 
-            data.star1.hit()
 
 def keyPressed(event, data):
-    pass
-    # use event.char and event.keysym
+    if data.mode == 'start':
+        if event.keysym == 'space':
+            data.mode = 'option'
+        elif data.mode == 'option' or data.mode == 'end':
+            if event.keysym == 'p':
+                data.mode = 'play'
+        if data.mode == 'end':
+            if event.keysym == 'r':
+                data.mode = 'play'
+
 def rgbString(red, green, blue):    
     return "#%02x%02x%02x" % (red, green, blue)
 
 
 def redrawAll(canvas, data):
     # draw in canvas
+    if data.mode == 'start':
+        canvas.create_rectangle(0,0, data.width, data.height, fill = 'LightSkyBlue4')
+        canvas.create_text(data.width/2 , data.height/4, text = \
+            'Manus Defense', fill = 'black', font = 'Helvetica 30 bold')
+        data.star1.draw(canvas)
+        canvas.create_text(data.width/2, data.height/1.3, text = \
+            "Press 'space' to continue", fill = 'black', font = 'Arial 20 bold')
+    if data.mode == 'option':
+        canvas.create_rectangle(0,0, data.width, data.height, fill = 'LightSkyBlue4')
+        canvas.create_text(data.width/2 , data.height/4, text = \
+            '   Defend the star from the aliens! \n         The star has 10 lives...', fill = 'black', font = 'Helvetica 30 bold')
+        data.star1.draw(canvas)
+        canvas.create_text(data.width/2, data.height/1.3, text = \
+            "Rotate the shields with your hand", fill = 'black', font = 'Arial 20 bold')
+        canvas.create_text(data.width/2, data.height/1.3 + 40, text)
     if data.mode == 'play':
         color = rgbString(255, data.rotation%255, 0)
         data.star1.draw(canvas)
